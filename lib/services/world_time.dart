@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class WorldTime {
+  WorldTime({required this.location, required this.flag, required this.url});
+  
   String location = ''; // Location name for the UI.
   String url = ''; // Url for api endpoint. Ex. 'Europe/Istanbul'.
   String flag = ''; // img path for flag.
   String time = ''; // Define time as an instance variable.
-
-  WorldTime({required this.location, required this.flag, required this.url});
+  bool isDayTime = true;
+  
   // method for getting time from world time api.
   Future<void> getTime() async {
     try {
@@ -28,6 +30,8 @@ class WorldTime {
       time = now.toString(); // Assign the value of now to the instance variable time.
 
       time = DateFormat.jm().format(now);
+
+      isDayTime = now.hour > 6 && now.hour < 20 ? true : false;
     } catch (e) {
       print('Error: $e');
       time = 'Can not fetch the time data.';

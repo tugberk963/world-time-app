@@ -10,17 +10,18 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
- 
   String time = '';
 
-  void setWorldTime() async{
-    WorldTime instance = WorldTime(location: 'Istanbul', flag: 'Turkey.png', url: 'Europe/Istanbul');
+  void setWorldTime() async {
+    WorldTime instance =
+        WorldTime(location: 'Istanbul', flag: 'tr.png', url: 'Europe/Istanbul');
     await instance.getTime();
     Navigator.pushReplacementNamed(context, '/home', arguments: {
       'location': instance.location,
       'flag': instance.flag,
       'time': instance.time,
-      'country': instance.url.substring(0,6)});
+      'isDayTime': instance.isDayTime
+    });
   }
 
   @override
