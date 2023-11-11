@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:world_time/services/world_time.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});
@@ -10,14 +11,16 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
  
-  String time = 'Can not fetch the time data.';
+  String time = '';
 
   void setWorldTime() async{
     WorldTime instance = WorldTime(location: 'Istanbul', flag: 'Turkey.png', url: 'Europe/Istanbul');
     await instance.getTime();
-    setState(() {
-      time = instance.time;
-    });
+    Navigator.pushReplacementNamed(context, '/home', arguments: {
+      'location': instance.location,
+      'flag': instance.flag,
+      'time': instance.time,
+      'country': instance.url.substring(0,6)});
   }
 
   @override
@@ -29,7 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text(time),
+      body: Center(child: SpinKitWave(color: Colors.black, size: 24)),
     );
   }
 }
