@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -9,16 +8,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  
   Map data = {};
 
   String bgImage = '';
 
-
   @override
   Widget build(BuildContext context) {
-
-    data = ModalRoute.of(context)?.settings.arguments as Map<dynamic, dynamic>;
+    data = data.isNotEmpty ? data : ModalRoute.of(context)?.settings.arguments as Map;
 
     bgImage = data['isDayTime'] ? 'day.png' : 'night.jpg';
 
@@ -35,18 +31,38 @@ class _HomeState extends State<Home> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(data['location'], style: const TextStyle(fontSize: 24
-                , color: Color.fromARGB(255, 238, 225, 225)),),
-                const SizedBox(height: 24,),
-                Text(data['time'], style: const TextStyle(fontSize: 64, color: Color.fromARGB(255, 238, 225, 225))),
-                const SizedBox(height: 64,),
+                Text(
+                  data['location'],
+                  style: const TextStyle(
+                      fontSize: 24, color: Color.fromARGB(255, 238, 225, 225)),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Text(data['time'],
+                    style: const TextStyle(
+                        fontSize: 64,
+                        color: Color.fromARGB(255, 238, 225, 225))),
+                const SizedBox(
+                  height: 64,
+                ),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.edit_location, color: Colors.black),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: (){
-                    Navigator.pushNamed(context, '/location');
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                  onPressed: () async {
+                    dynamic result = await Navigator.pushNamed(context, '/location');
+                    setState(() {
+                      data = {
+                        'location': result['location'],
+                        'flag': result['flag'],
+                        'time': result['time'],
+                        'isDayTime': result['isDayTime'],
+                      };
+                    });
                   },
-                  label: const Text('Edit Location', style: TextStyle(color: Colors.black)),
+                  label: const Text('Edit Location',
+                      style: TextStyle(color: Colors.black)),
                 ),
               ],
             ),
