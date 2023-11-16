@@ -1,1 +1,6 @@
-*.cplusplus linguist-detectable=false
+*.java linguist-language=Dart
+*.kt linguist-language=Dart
+*.swift linguist-language=Dart
+*.m linguist-language=Dart
+*.h linguist-language=Dart
+*.cpp linguist-language=Dart
